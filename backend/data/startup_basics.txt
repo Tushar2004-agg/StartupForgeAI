@@ -1,0 +1,3 @@
+A startup should solve a real customer problem.
+A startup must identify target customers and value proposition.
+Revenue models include subscription, marketplace and SaaS.

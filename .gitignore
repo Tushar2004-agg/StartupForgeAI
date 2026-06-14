@@ -12,6 +12,15 @@ venv/
 # Node
 node_modules/
 
+# Next.js
+.next/
+
+# ChromaDB
+chroma_db/
+
+# Generated PDFs
+*.pdf
+
 # Build
 dist/
 build/

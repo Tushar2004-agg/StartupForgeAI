@@ -16,19 +16,19 @@ def generate_final_report(
     {startup_name}
 
     Research Analysis:
-    {research}
+    {research[:1000]}
 
     Business Analysis:
-    {business}
+    {business[:1000]}
 
     Finance Analysis:
-    {finance}
+    {finance[:1000]}
 
     Marketing Analysis:
-    {marketing}
+    {marketing[:1000]}
 
     Investor Analysis:
-    {investor}
+    {investor[:1000]}
 
     Generate:
 

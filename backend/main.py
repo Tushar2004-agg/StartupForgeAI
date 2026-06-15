@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
+from agents.chat_agent import chat_with_startup
 
 from agents.research_agent import analyze_startup
 from agents.business_agent import create_business_plan
@@ -31,6 +32,10 @@ class StartupIdea(BaseModel):
 
 class ReportData(BaseModel):
     report: str
+
+class ChatRequest(BaseModel):
+    report: str
+    question: str
 
 
 @app.get("/")
@@ -95,3 +100,15 @@ def download_pdf(data: ReportData):
         media_type="application/pdf",
         filename="startup_report.pdf"
     )
+
+@app.post("/chat")
+def chat(data: ChatRequest):
+
+    answer = chat_with_startup(
+        data.report,
+        data.question
+    )
+
+    return {
+        "answer": answer
+    }

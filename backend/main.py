@@ -2,7 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+
 from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
 
 from agents.research_agent import analyze_startup
 from agents.business_agent import create_business_plan
@@ -25,6 +27,10 @@ class StartupIdea(BaseModel):
     industry: str
     budget: str
     location: str
+
+
+class ReportData(BaseModel):
+    report: str
 
 
 @app.get("/")
@@ -58,18 +64,29 @@ def create_startup_plan(data: StartupIdea):
     }
 
 
-@app.get("/download-pdf")
-def download_pdf():
+@app.post("/download-pdf")
+def download_pdf(data: ReportData):
 
     pdf_file = "startup_report.pdf"
 
-    c = canvas.Canvas(pdf_file)
+    c = canvas.Canvas(pdf_file, pagesize=letter)
 
     c.setFont("Helvetica-Bold", 18)
-    c.drawString(100, 800, "StartupForge AI Report")
+    c.drawString(50, 780, "StartupForge AI Report")
 
-    c.setFont("Helvetica", 12)
-    c.drawString(100, 760, "PDF download feature integrated successfully!")
+    c.setFont("Helvetica", 10)
+
+    y = 740
+
+    for line in data.report.split("\n"):
+
+        if y < 50:
+            c.showPage()
+            y = 780
+            c.setFont("Helvetica", 10)
+
+        c.drawString(50, y, line[:100])
+        y -= 15
 
     c.save()
 

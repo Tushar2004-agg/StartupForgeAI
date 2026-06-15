@@ -5,6 +5,7 @@ import StartupForm from "../components/StartupForm";
 import ReportCard from "../components/ReportCard";
 import Dashboard from "../components/Dashboard";
 import LoadingSpinner from "../components/LoadingSpinner";
+import StartupChat from "../components/StartupChat";
 
 export default function Home() {
   const [startupName, setStartupName] = useState("");
@@ -78,6 +79,7 @@ export default function Home() {
         {loading && <LoadingSpinner />}
 
         <ReportCard report={report} />
+        <StartupChat report={report} />
       </div>
     </main>
   );

@@ -76,22 +76,67 @@ def download_pdf(data: ReportData):
 
     c = canvas.Canvas(pdf_file, pagesize=letter)
 
-    c.setFont("Helvetica-Bold", 18)
+    # Title
+    c.setFont("Helvetica-Bold", 20)
     c.drawString(50, 780, "StartupForge AI Report")
 
-    c.setFont("Helvetica", 10)
+    c.line(50, 770, 550, 770)
 
     y = 740
 
+    headings = [
+        "Executive Summary",
+        "Market Opportunity",
+        "Business Strategy",
+        "Financial Outlook",
+        "Marketing Roadmap",
+        "Investment Readiness",
+        "Final Recommendation"
+    ]
+
     for line in data.report.split("\n"):
 
-        if y < 50:
+        line = line.strip()
+
+        if not line:
+            y -= 10
+            continue
+
+        if y < 60:
             c.showPage()
             y = 780
+
+        is_heading = False
+
+        for heading in headings:
+            if heading.lower() in line.lower():
+
+                c.setFont("Helvetica-Bold", 14)
+                c.drawString(50, y, line)
+
+                y -= 20
+
+                is_heading = True
+                break
+
+        if not is_heading:
             c.setFont("Helvetica", 10)
 
-        c.drawString(50, y, line[:100])
-        y -= 15
+            while len(line) > 90:
+
+                c.drawString(50, y, line[:90])
+
+                line = line[90:]
+
+                y -= 15
+
+                if y < 60:
+                    c.showPage()
+                    y = 780
+
+            c.drawString(50, y, line)
+
+            y -= 15
 
     c.save()
 
@@ -100,15 +145,3 @@ def download_pdf(data: ReportData):
         media_type="application/pdf",
         filename="startup_report.pdf"
     )
-
-@app.post("/chat")
-def chat(data: ChatRequest):
-
-    answer = chat_with_startup(
-        data.report,
-        data.question
-    )
-
-    return {
-        "answer": answer
-    }

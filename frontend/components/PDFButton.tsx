@@ -6,7 +6,7 @@ export default function PDFButton({ report }: Props) {
   if (!report) return null;
 
   const downloadPDF = () => {
-    window.open("http://127.0.0.1:8000/download-pdf", "_blank");
+    window.open("https://startupforgeai.onrender.com/download-pdf", "_blank");
   };
 
   return (

@@ -20,7 +20,7 @@ export default function Home() {
       setLoading(true);
       setReport("");
 
-      const response = await fetch("http://127.0.0.1:8000/startup", {
+      const response = await fetch("https://startupforgeai.onrender.com/startup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
